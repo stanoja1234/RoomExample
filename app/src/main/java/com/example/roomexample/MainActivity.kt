@@ -1,20 +1,48 @@
 package com.example.roomexample
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.Button
+import android.widget.EditText
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+
 
 class MainActivity : AppCompatActivity() {
+
+    private val personViewModel: PersonViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+
+        val recyclerView: RecyclerView = findViewById(R.id.recyclerView)
+        val adapter = PersonAdapter()
+
+        recyclerView.layoutManager = LinearLayoutManager(this)
+        recyclerView.adapter = adapter
+
+
+        personViewModel.allPeople.observe(this, Observer { people ->
+            people?.let { adapter.submitList(it) }
+        })
+
+        // Set up Add Button listener
+        val addButton = findViewById<Button>(R.id.addButton)
+        val nameEditText = findViewById<EditText>(R.id.nameEditText)
+        val ageEditText = findViewById<EditText>(R.id.ageEditText)
+
+        addButton.setOnClickListener {
+            val name = nameEditText.text.toString()
+            val age = ageEditText.text.toString().toIntOrNull()
+
+            if (name.isNotEmpty() && age != null) {
+                val person = Person(name = name, age = age)
+                personViewModel.insert(person)
+            }
         }
     }
 }
