@@ -1,4 +1,5 @@
 #Kaj je Room?
+---
 **Room** je uradna **ORM (Object Relational Mapping)** knjižnica v Androidu, ki ponuja enostaven način za delo z SQLite bazami podatkov. Z uporabo anotacij in preverjanja poizvedb v času prevajanja Room poenostavi pisanje kode za delo z bazami podatkov, kar zagotavlja pravilnost poizvedb.
 ---
 
@@ -21,12 +22,11 @@
 
 ---
 
-##Licenca
+###Licenca
 Licenca je Apache 2.0.
-
 ---
 
-##Informacije
+###Informacije
 Trenutna verzija Room 2.6.1
 Alternative: DBFlow, Firebase, Realm, GreenDAO, SQLite
 
